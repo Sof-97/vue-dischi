@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<header>
-			<img src="./assets/logo.svg" alt="" />
+			<HeaderComp @changeGenre="changeGenre"/>
 		</header>
 		<main class="container">
-			<AlbumsComp />
+			<AlbumsComp :selectedGenre="selected"/>
 		</main>
 	</div>
 </template>
@@ -12,12 +12,24 @@
 <script>
 import "bootstrap";
 import AlbumsComp from "./components/AlbumsComp.vue";
+import HeaderComp from "./components/HeaderComp.vue";
 
 export default {
 	name: "App",
 	components: {
 		AlbumsComp,
+		HeaderComp,
 	},
+	data() {
+		return {
+			selected: '',
+		};
+	},
+	methods:{
+		changeGenre(GenSel){
+			this.selected = GenSel
+		}
+	}
 };
 </script>
 
@@ -32,12 +44,8 @@ body {
 		height: 100vh;
 		header {
 			background-color: $grey;
-			height: 5%;
+			height: 6%;
 			padding: 10px;
-			img {
-				height: 100%;
-				margin-left: 6%;
-			}
 		}
 		main {
 			margin-top: 100px;
