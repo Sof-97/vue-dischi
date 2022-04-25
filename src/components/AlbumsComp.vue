@@ -8,6 +8,7 @@
 			:title="item.title"
 			:year="item.year"
 		/>
+		<h5 v-show="this.filter.length == 0 ">Nessun risultato trovato</h5>
 	</div>
 </template>
 
@@ -22,30 +23,52 @@ export default {
 	data() {
 		return {
 			albumData: [],
+			found: null,
 		};
 	},
-	props:{
-		selectedGenre: String
+	props: {
+		selectedGenre: String,
+		selectedArtist: String,
 	},
 	created() {
 		axios
 			.get("https://flynn.boolean.careers/exercises/api/array/music")
 			.then(res => {
 				this.albumData = res.data.response;
-                console.log(this.albumData);
+				this.found = res.data.response.length;
 			});
 	},
-   computed:{
-        filter: function(){
-            if(this.selectedGenre === ''){
-                return this.albumData
-            }  else {
-                return this.albumData.filter((e) => {
-					
-                    return e.genre == this.selectedGenre
-                })
-            }
-        }
-    }
+	computed: {
+		filter: function () {
+			if (this.selectedGenre === "" && this.selectedArtist === "") {
+				return this.albumData;
+			} else if (this.selectedGenre != "" && this.selectedArtist === "") {
+				return this.albumData.filter(e => {
+					return e.genre == this.selectedGenre;
+				});
+			} else if (
+				this.selectedGenre === "" &&
+				this.selectedArtist !== ""
+			) {
+				return this.albumData.filter(e => {
+					return e.author == this.selectedArtist;
+				});
+			} else {
+				return this.albumData.filter(e => {
+					return (
+						e.author == this.selectedArtist &&
+						e.genre == this.selectedGenre
+					);
+				});
+			}
+		},
+	},
 };
 </script>
+
+<style scoped>
+h5{
+	color: white;
+	text-align: center;
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
 	<div id="app">
 		<header>
-			<HeaderComp @changeGenre="changeGenre"/>
+			<HeaderComp @changeGenre="changeGenre" @changeArtist="changeArtist"/>
 		</header>
 		<main class="container">
-			<AlbumsComp :selectedGenre="selected"/>
+			<AlbumsComp :selectedGenre="selectedGenre" :selectedArtist="selectedArtist"/>
 		</main>
 	</div>
 </template>
@@ -22,12 +22,16 @@ export default {
 	},
 	data() {
 		return {
-			selected: '',
+			selectedGenre: '',
+			selectedArtist: '',
 		};
 	},
 	methods:{
 		changeGenre(GenSel){
-			this.selected = GenSel
+			this.selectedGenre = GenSel
+		},
+		changeArtist(ArtSel){
+			this.selectedArtist = ArtSel
 		}
 	}
 };
